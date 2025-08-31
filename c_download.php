@@ -1,7 +1,7 @@
 <?
 $_GET['pms'] = $page_pms;
 require_once("include/content_head.php");
-require_once("lock2.php");
+require_once("lock.php");
 
 $DlTypeList = array("TWLoader PLus 主程式下載", "Beat UP PLus 主程式下載", "完整作品下載");
 //
