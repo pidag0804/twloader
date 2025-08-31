@@ -1,0 +1,1 @@
+v1.9,61440,\TL_Launcher.exe,https://www.tlmoo.com/twloader/PackageInfo/LauncherUpdate/TL_Launcher.exe,0

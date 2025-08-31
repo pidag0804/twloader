@@ -1,0 +1,67 @@
+<?
+$_GET['pms'] = $page_pms;
+require_once("include/content_head.php");
+require_once("lock2.php");
+?>
+
+<script type='text/javascript'>
+  $(function() {
+    $('#manual-example').tipsy({live: true, offset: 10, gravity: 'w'});
+  });
+</script>
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <div class="page-intro line clearfix">
+      <h1 class="page-title">價目表</h1>
+    </div>
+    
+    <!-- Begin Pricing Table -->
+    <div class="pricing" style="width:50%">
+      <div class="plan p1">
+        <h3>月費型 (以下價目不包含金流費用 30 元 )</h3>
+        <div class="features">
+          <ul id='manual-example'>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC; background-color:#CCC;">1 個月</i>230</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">2 個月</i>460</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">3 個月</i>600</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">4 個月</i>830</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">5 個月</i>1060</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">6 個月</i>1200</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">7 個月</i>1430</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">8 個月</i>1660</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">9 個月</i>1890</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">10 個月</i>2120</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">11 個月</i>2350</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">12 個月</i>2400</li>
+          </ul>
+        </div>
+        <div class="select">
+           <div> <a href="?page=tlapplyec" class="button black"><span>立即選購</span></a> </div>
+        </div>
+        <br>
+      </div>
+      <div class="plan p2">
+        <h3>次數型 (以下價目不包含金流費用 30 元 )</h3>
+        <div class="features">
+          <ul>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">400 次</i>260</li>
+            <li><i class="awe" style="font-style:normal; background-color:#CCC;">1200 次</i>730</li>
+          </ul>
+        </div>
+        <div class="select">
+           <div> <a href="?page=tlapplyec" class="button black"><span>立即選購</span><BR \><FONT COLOR=#585858>觀戰亦算次數內</a> </div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="clear"></div>
+    <!-- End Pricing Table --> 
+    
+  </div>
+  <!-- End Inner --> 
+  
+</div>
+<!-- End White Wrapper -->

@@ -1,0 +1,17 @@
+<?
+$_GET['pms'] = $page_pms;
+require_once("include/content_head.php");
+require_once("lock2.php");
+?>
+<SCRIPT LANGUAGE="Javascript">
+<!--
+var Words ="%3Cstyle%20type%3D%22text/css%22%3E%0Abody%20%7B%0A-moz-user-select%20%3A%20none%3B%0A-webkit-user-select%3A%20none%3B%0A%7D%0A%3C/style%3E%0A%0A%3Cscript%20type%3D%22text/javascript%22%3E%0Afunction%20iEsc%28%29%7B%20return%20false%3B%20%7D%0Afunction%20iRec%28%29%7B%20return%20true%3B%20%7D%0Afunction%20DisableKeys%28%29%20%7B%0Aif%28event.ctrlKey%20%7C%7C%20event.shiftKey%20%7C%7C%20event.altKey%29%20%7B%0Awindow.event.returnValue%3Dfalse%3B%0AiEsc%28%29%3B%7D%0A%7D%0Adocument.ondragstart%3DiEsc%3B%0Adocument.onkeydown%3DDisableKeys%3B%0Adocument.oncontextmenu%3DiEsc%3B%0Aif%20%28typeof%20document.onselectstart%20%21%3D%22undefined%22%29%0Adocument.onselectstart%3DiEsc%3B%0Aelse%7B%0Adocument.onmousedown%3DiEsc%3B%0Adocument.onmouseup%3DiRec%3B%0A%7D%0Afunction%20DisableRightClick%28qsyzDOTnet%29%7B%0Aif%20%28window.Event%29%7B%0Aif%20%28qsyzDOTnet.which%20%3D%3D%202%20%7C%7C%20qsyzDOTnet.which%20%3D%3D%203%29%0AiEsc%28%29%3B%7D%0Aelse%0Aif%20%28event.button%20%3D%3D%202%20%7C%7C%20event.button%20%3D%3D%203%29%7B%0Aevent.cancelBubble%20%3D%20true%0Aevent.returnValue%20%3D%20false%3B%0AiEsc%28%29%3B%7D%0A%7D%0A%3C/script%3E%0A%3C%21--%20Begin%20White%20Wrapper%20--%3E%0A%3Cdiv%20class%3D%22white-wrapper%22%3E%20%0A%20%20%3C%21--%20Begin%20Inner%20--%3E%0A%20%20%3Cdiv%20class%3D%22inner%22%3E%0A%20%20%20%20%3CH2%3E%3Ccenter%3ECX_TWLoader%20OLD%20Song%20%u63A8%u85A6%u5217%u8868%3C/center%3E%3C/H2%3E%0A%20%20%20%20%3Ch2%20class%3D%22line%22%3E%20%3C/h2%3E%0A%20%20%20%20%3Cblockquote%3E%0A%3Ccenter%3E%u8ACB%u5148%u767B%u5165%20Google%20%u5F8C%uFF0C%u518D%u56DE%u4F86%u5373%u53EF%u770B%u898B%u66F2%u76EE%u5217%u8868%u4E26%u63A8%u85A6%u66F2%u76EE%3C/center%3E%0A%3Ciframe%20name%3D%22main%22%20frameborder%3D%220%22%20height%3D%22465%22%20scrolling%3D%22YES%22%20src%3D%22https%3A//docs.google.com/forms/d/1WnGrMOgLE2xJOls_hl_cnLSTZXMblvEUR4Av8RClZGU/viewform%3Fembedded%3Dtrue%22%20width%3D%22100%25%22%3E%3C/iframe%3E%0A%20%20%20%20%3C/blockquote%3E%0A%20%20%20%20%3Cdiv%20class%3D%22clear%22%3E%3C/div%3E%0A%20%20%3C%21--%20End%20Inner%20--%3E%20%0A%3C/div%3E%0A%3C%21--%20End%20White%20Wrapper%20--%3E"
+function SetNewWords()
+{
+var NewWords;
+NewWords = unescape(Words);
+document.write(NewWords);
+} 
+SetNewWords();
+-->
+</SCRIPT>

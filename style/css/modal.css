@@ -1,0 +1,48 @@
+#mask {
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:5000;
+  background-color:#000;
+  display:none;
+}
+  
+#boxes .window {
+  position:fixed;
+  left:0;
+  top:0;
+  width:440px;
+  height:200px;
+  display:none;
+  z-index:5999;
+  padding:20px;
+}
+
+#boxes #dlg_ApplyConfirm,
+#boxes #dlg_Add,
+#boxes #dlg_Login {
+  width:320px; 
+  padding:10px;
+  background-color:#ffffff;
+  -webkit-overflow-scrolling: touch;
+}
+
+#boxes #dlg_Login {	height:200px; }
+#boxes #dlg_Add { height:150px; }
+#boxes #dlg_ApplyConfirm { width:500px; height:400px; }
+
+@media only screen and (max-width: 767px) { 
+
+#boxes #dlg_ApplyConfirm,
+#boxes #dlg_Add,
+#boxes #dlg_Login {
+  width:250px;
+  margin-left:-10px;
+  overflow:auto;
+}
+
+#boxes #dlg_Login { height:200px;}
+#boxes #dlg_Add { height:150px; }
+#boxes #dlg_ApplyConfirm { height:300px; }
+
+}

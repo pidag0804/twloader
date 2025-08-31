@@ -1,0 +1,110 @@
+
+一. WeLive介紹：
+    ------------------
+    WeLive在線客服系統是一個程序小巧, 安裝使用簡單的網上在線客服系統, 主要特點：
+
+   1. 基於PHP + MySQL + Ajax技術的在線客服系統;
+   2. 會員安裝在自己的伺服器或虛擬主機, 安裝一次可在任意網站或頁面中調用;
+   3. 前台中英文雙語, 根據會員瀏覽器的語言自動切換或由管理員設定指定;
+   4. 客服人員多視窗與不同的訪客同時交流;
+   5. 客服人員分組管理, 無限制增加客服人員;
+   6. 新內容視窗閃動, 內容提示聲音, 顏色, 表情符號等等。
+
+==============================================================
+
+二. WeLive安裝：
+    ------------------
+  A. 系統要求:
+  --------------
+    1. Unix, Linux或Windows Web伺服器, 要求支援Ajax.
+    2. PHP4.1或以上.
+    3. MySQL4.0或以上.
+ 
+
+  B. 安裝步驟:
+  --------------
+    1. 設定FTP上傳工具的傳送模式為"二進制", 否則上傳的PHP程序可能會在運行時發生意想不到的錯誤.
+        如設定FlashFXP：選項 -> 參數設定 -> 打開對話框 -> 傳送 -> 在傳送模式中選擇"二進制(圖像)"
+ 
+    2. 解壓程序包後, 使用FTP工具上傳到網站伺服器某一指定目錄如: welive/
+
+    3. linux或unix伺服器需要更改以下檔案夾或檔案屬性為可寫:
+
+       ./welive/cache/                      屬性: 777
+       ./welive/config/                     屬性: 777
+       ./welive/config/settings.php         屬性: 777
+
+
+    4. 新建一個MySQL資料庫或向虛擬主機服務商索取已存在的MySQL資料庫的資料庫名, 會員名, 會員密碼內容。
+
+    5. 在瀏覽器中輸入地址: http://www.xxxx.com/welive/install/, 系統提示安裝.
+       安裝完成後建議刪除安裝目錄 ./welive/install/
+
+
+  C. 重新安裝:
+  -------------
+    1. 重新安裝需要刪除./welive/config/config.php檔案, 上傳install檔案夾, 然後按第B.5步安裝.
+        
+==============================================================
+
+三. WeLive使用：
+    ------------------
+    WeLive系統使用非常簡單, 登入聞泰論壇可查閱更多相關使用方面的文章. 
+    
+    1.  調用客服小面板(浮動):
+    -------------------------
+       a. html檔案中調用程式碼: 
+           <script src="http://www.xxxx.com/welive/welive.php" language="javascript"></script>
+
+           在html檔案中的<head></head>或<body></body>之間插入上面一行程式碼, 網頁就能調用客服小面板.
+
+	   注意: 上面的檔案地址為絕對地址, 當然也可以使用相對地址, 
+	   但如果您不知道目前html檔案和welive.php的相對關係, 那麼使用絕對地址將更為簡單方便.
+
+       b. php檔案中調用: 
+           在任何php程式碼段增加下面一句: 
+	   echo '<script src="http://www.xxxx.com/welive/welive.php" language="javascript"></script>';
+
+	   或在php檔案中的html程式碼段增加下面一句: 
+	   <script src="http://www.xxxx.com/welive/welive.php" language="javascript"></script>
+
+       c. 在weenCompany企業網站系統中調用:
+           如果希望在weenCompany系統的任何頁面中都顯示客服小面板, 可打開weenCompany的index.php檔案: 
+	   查找到這一句:
+
+	   <script type="text/javascript" src="includes/javascript/hovermenu/menu.js"></script>';
+
+	   在其後面增加並變為如下(注意語句結尾的標點符號):
+
+	   <script type="text/javascript" src="includes/javascript/hovermenu/menu.js"></script>
+	   <script src="http://www.xxxx.com/welive/welive.php" language="javascript" ></script>';
+ 
+           如果希望僅在weenCompany系統的某個版型樣式中顯示客服小面板, 可打開這個版型樣式檔案: 
+	   在此樣式檔案的</head>之前增加下面一句:
+	   <script src="http://www.xxxx.com/welive/welive.php" language="javascript"></script>
+
+	d. 在其它編程語言(如ASP)編寫的網頁檔案中均調用顯示客服小面板, 參考以上說明或訪問聞泰論壇提問.
+
+
+    2.  直接在頁面中插入客服圖片(固定):
+    ------------------------------------
+        在需要顯示WeLive在線客服系統「客服圖片」的頁面<body></body>之間任意您需要的地方,
+        插入以下程式碼：
+
+        <script src="http://www.xxxx.com/welive/welive_image.php" language="javascript"></script>
+
+        註：a.  四個客服在線狀態圖片存放在images目錄, 可以隨意更換, 但不要改名;
+            b.  客服在線狀態圖片無法顯示QQ, MSN, Skype的在線狀態;
+
+ 
+    3.  管理員及客服人員登入:
+    -----------------------------
+       a. 管理員及客服人員的操作面板登入地址為: http://www.xxxx.com/welive/
+
+       b. 建議修改客服人員的登入名和密碼: 
+          系統預設安裝後, 系統自帶客服人員的登入密碼都與管理員密碼相同, 請自行修改, 刪除或增加.
+
+       c. 只有管服人員登入後，系統才可以提供在線服務.
+
+
+

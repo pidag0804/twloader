@@ -1,0 +1,199 @@
+<?
+$get_mid = intval($_GET['mid']);
+
+
+$_GET['pms'] = $page_pms;
+require_once("include/content_head.php");
+//include_once("2.php");
+
+if ( $get_mid != 0 && $get_mid != 3 && $User['group'] != 1 ) {
+	$_GET['msg'] = "這是錯誤的操作，我們會將您先前的操作記錄下來 .";
+	require_once("c_error.php");
+}
+?>
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+  
+  	<div class="sidebar" style="background:none;">
+      <div class="sidebox">
+<!-- Begin Comments -->
+      <div id="comments" style="background:none; padding-top:0px;">
+        <h3>客服列表</h3>
+        平均回應時間：約十五到三十分鐘<br>
+        點擊以下 TWLoader官方人員 洽詢</font>
+        
+        <ol id="singlecomments" class="commentlist">
+          
+          <li class= "clearfix">
+            <div class="user" style="width:60px;"><img src="images/admin.png" height="60px"/></div>
+            <div class="message" style="cursor:pointer" onclick="window.location='?page=inbox&mid=3'"> 
+              <div class="info" style="padding-bottom:6px;">
+                <h2><a OnClick="window.location='?page=inbox&mid=3'"> 聯繫 TwLoader 客服</a></h2>
+              </div>
+           </div>
+          </li>
+<font color="#FF0000"> 連絡前煩請先詳閱官網公告及<a OnClick="window.location='?page=guest_notice'">常見問題</a><br \>如未有解決方式再連繫以節省等待時間</font>
+          </div>
+
+<!-- End Comments -->
+      </div>
+    </div>
+    
+  <div class="content">
+<?
+if ( $get_mid > 0 ) {  
+  	$query = $db->query("SELECT * FROM tlpw WHERE `num` = ".$get_mid);
+  	$count_query = $db->num_rows($query);
+  	if ( $count_query )
+		$Chater = $db->fetch_array($query);
+?>
+
+<!-- Begin Comments -->
+	  <a onclick="window.location = '?page=inbox'"><i class="icon-back awe colorful" style="background-color:#666;"> &nbsp;返回訊息中心</i></a><br /><br />
+    <? if ( $User['group'] == 6 || $User['num'] > 3 && $User['num'] < 18756 || $User['num'] > 18756 ) {} ?>
+	  <div class="page-intro clearfix"><h1 class="page-title">和 <? echo $User['group'] == 1 ? "<a href=?page=set_user&uid=".$Chater['num']." target=_blank>" : "" ; ?><? echo $Chater['cnname']; ?><? echo $User['group'] == 1 ? "</a>" : "" ; ?> 的對話</h1><br><br><h2><font color="red"></font></h2></div>
+	  <div id="comments">
+		<ol id="singlecomments" class="commentlist">
+		
+<?
+$query = $db->query("SELECT * FROM tl_message WHERE `touser` = ".$User['num']." && `fromuser` = ".$get_mid." UNION ALL 
+					 SELECT * FROM tl_message WHERE `touser` = ".$get_mid." && `fromuser` = ".$User['num']." ORDER BY `time`");
+$count_query = $db->num_rows($query);
+
+for($i=0; $i < $count_query; $i++) {
+	$MsgData = $db->fetch_array($query);
+?>
+      <li class= "clearfix">
+        <div class="user"><img alt="" src="images/user.png" class="avatar" /></div>
+        <div class="message" style='background-color:<? echo $MsgData['fromuser'] == $User['num'] ? "#D9FFCE" : "#CFF"; ?>;'> 
+          <div class="info">
+          	<? echo ($MsgData['unread'] == 1 && $MsgData['touser'] == $User['num']) ? "<span class='reply-link' style='color:red;'>未讀取</span>" : ""; ?>
+            <h2><? echo $MsgData['fromuser'] == $User['num'] ? "你" : $Chater['cnname']; ?></h2>
+            <div class="meta"><? echo $MsgData['time']; ?></div>
+            <hr style="margin:4px 1px;" />
+            <? echo nl2br($MsgData['content']); ?>
+          </div>
+        </div>
+      </li>
+<?
+}
+$db->query("UPDATE tl_message SET `unread` = 0 WHERE `touser` = ".$User['num']." && `fromuser` = ".$get_mid."");
+?>
+		</ol>
+	  </div>
+<!-- End Comments -->
+
+<!-- Begin Form -->
+<div class="form-container">
+	<div class="response"></div>
+  <form class="forms" name="form_name" action="a_send.php?mid=<? echo $get_mid; ?>&act=send" method="post">
+  	<fieldset>
+    	<h3>留言</h3>
+      <h4 style="color:#6094b4"></h4>
+      <h4 style="color:#6094b4"></h4>
+        <div>
+          <textarea name="message" id="message" class="text-area"></textarea>
+        </div>
+        <input type="submit" value="傳送" class="btn-submit" />
+    </fieldset>
+  </form>
+</div>
+<!-- End Form -->
+<?
+} else {
+	//CASE WHEN ( `touser` = ".$User['num'].") THEN `fromuser` ELSE `touser` END as checker,
+	$idList = array();
+	$totalUnread = 0;
+	
+	$ShowDataNum = 10;
+	$nowPage = intval($_GET['p']);
+	$nowData = $nowPage * $ShowDataNum;
+	
+	$query = $db->query(
+		"SELECT DISTINCT tlpw.cnname,
+		CASE WHEN ( `touser` = ".$User['num'].") THEN `fromuser` ELSE `touser` END as checker,
+		CASE WHEN ( `unread` = 1 AND `touser` =  ".$User['num']." ) THEN 1 ELSE 0 END as unreadmsg 
+		FROM tl_message
+		LEFT JOIN tlpw on tlpw.num = CASE WHEN (`touser` = ".$User['num'].") THEN `fromuser` ELSE `touser` END 
+		WHERE  `touser` =".$User['num']." || `fromuser` =".$User['num']." 
+		GROUP BY checker, unreadmsg
+		ORDER BY unreadmsg DESC, time DESC
+		LIMIT $nowData, $ShowDataNum"
+	);
+	$count_query = $db->num_rows($query);
+?>
+
+<script language="javascript">
+	setTimeout("self.location.reload();",120 * 1000);
+</script>
+
+<!-- Begin Comments -->
+	  <div class="page-intro clearfix"><h1 class="page-title">訊息中心</h1></div>
+      <div id="comments">
+        <h3><span id="idCount">0</span> 則通話 ( <span id="unreadCount">0</span> 未讀 )</h3>
+        <ol id="singlecomments" class="commentlist">
+        
+        <?
+		for($i=0; $i < $count_query; $i++) {
+			$readed = 0;
+			$ChaterData = $db->fetch_array($query);
+			
+			if ( $idList[$ChaterData['checker']] == 0 ) {
+				$idList[$ChaterData['checker']] = $ChaterData['checker'];
+				$unreaded = $ChaterData['unreadmsg'];
+				if ( $unreaded == 1 ) $totalUnread++;
+			}
+			else{
+				continue;
+			}
+			
+			/*echo $i."-".$ChaterData['checker']."<br>";
+			$f_query = $db->query("SELECT * FROM tlpw WHERE `num` = ".$ChaterData['checker']);
+			$isUser = $db->num_rows($f_query);
+			if ( $isUser )
+				$Chater = $db->fetch_array($f_query);*/
+		?>
+          <li class= "clearfix">
+            <div class="user"><img alt="" src="images/user.png" class="avatar" /></div>
+            <div class="message" style="cursor:pointer; <? echo $unreaded ? "background-color:#CFF;" : ""; ?>" onclick="window.location = '?page=inbox&mid=<? echo $ChaterData['checker']; ?>'"> 
+              <div class="info">
+                <h2><a onclick="window.location = '#'"><? echo $ChaterData['cnname']; ?></a></h2>
+                <div class="meta"><? echo $unreaded ? "有" : "沒有"; ?>新訊息</div>
+              </div>
+            </div>
+          </li>
+        <?
+		}
+		?>
+		<script>
+			document.getElementById('idCount').innerHTML = <? echo sizeof($idList); ?>;
+			document.getElementById('unreadCount').innerHTML = <? echo $totalUnread; ?>;
+        </script>
+        <br />
+        <? if ( $nowPage > 0 ) { ?>
+        	<a href="?page=inbox&p=<? echo $nowPage - 1; ?>">上一頁</a>
+        <? } ?>
+        
+        <? if ( $count_query == $ShowDataNum ) { ?>
+        	<a href="?page=inbox&p=<? echo $nowPage + 1; ?>">下一頁</a>
+        <? } ?>
+        </ol>
+      </div>
+<!-- End Comments -->
+    
+<?
+}
+?>
+      
+    </div>
+    
+</div>
+    
+
+    
+    <div class="clear"></div>
+  <!-- End Inner --> 
+<!-- End White Wrapper -->

@@ -1,0 +1,46 @@
+{
+    "room": [
+        {"name":"情人節","slug":"room21","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room21/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room21/room.jpeg","targetFile":"Room.btf"},
+        {"name":"下雨天","slug":"room1","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room1/Room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room1.jpg","targetFile":"Room.btf"},
+        {"name":"大餅乾","slug":"room2","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room2/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room2.jpg","targetFile":"Room.btf"},
+        {"name":"日式房屋","slug":"room3","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room3/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room3.jpg","targetFile":"Room.btf"},
+        {"name":"日式房屋2","slug":"room4","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room4/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room4.jpg","targetFile":"Room.btf"},
+        {"name":"火車","slug":"room5","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room5/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room5.jpg","targetFile":"Room.btf"},
+        {"name":"未來城","slug":"room6","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room6/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room6.jpg","targetFile":"Room.btf"},
+        {"name":"冰雪皇宮","slug":"room7","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room7/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room7.jpg","targetFile":"Room.btf"},
+        {"name":"市民廣場","slug":"room8","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room8/room2/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room8/room2/room8.jpeg","targetFile":"Room.btf"},
+        {"name":"夏日河畔","slug":"room9","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room9/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room9.jpg","targetFile":"Room.btf"},
+        {"name":"海底世界","slug":"room10","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room10/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room10.jpg","targetFile":"Room.btf"},
+        {"name":"海盜寶藏","slug":"room11","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room11/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room11.jpg","targetFile":"Room.btf"},
+        {"name":"甜品店","slug":"room12","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room12/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room12.jpg","targetFile":"Room.btf"},
+        {"name":"甜點世界","slug":"room13","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room13/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room13.jpg","targetFile":"Room.btf"},
+        {"name":"夢幻森林","slug":"room14","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room14/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room14.jpg","targetFile":"Room.btf"},
+        {"name":"營火派對","slug":"room15","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room15/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room15.jpg","targetFile":"Room.btf"},
+        {"name":"魔法小屋","slug":"room16","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room16/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room16.jpg","targetFile":"Room.btf"},
+        {"name":"飛機艙","slug":"room17","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room17/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room17/room.jpeg","targetFile":"Room.btf"},
+        {"name":"甜蜜小窩","slug":"room18","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room18/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room18/room.jpeg","targetFile":"Room.btf"},
+        {"name":"我很想你","slug":"room19","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room19/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room19/room.jpeg","targetFile":"Room.btf"},
+        {"name":"生日快樂","slug":"room20","category":"room","fileURL":"http://www.tlmoo.com/twloader/down/Room/room20/room.btf","imageURL":"https://www.tlmoo.com/twloader/down/Room/room20/room.jpeg","targetFile":"Room.btf"}
+    ],
+    "gui": [
+        {"name":"介面: 賽博朋客風格","slug":"gui-cyberpunk","category":"gui","fileURL":"https://www.tlmoo.com/twloader/down/gui/SeverStyle.btf","imageURL":"https://www.tlmoo.com/twloader/down/gui/gui.jpg","targetFile":"SeverStyle.btf"}
+    ],
+    "scene": [
+        {"name":"全地圖優化(GGloader)","slug":"scene-allmap","category":"scene","fileURL":"https://www.tlmoo.com/twloader/down/map/Allmap.btf","imageURL":"https://www.tlmoo.com/twloader/down/map/map.jpeg","targetFile":"Allmap.btf"},
+        {"name":"普通模式PGCB字體優化","slug":"scene-pgcb-font","category":"scene","fileURL":"https://www.tlmoo.com/twloader/down/map/ordinaryPredperfect.btf","imageURL":"https://www.tlmoo.com/twloader/down/null.jpg","targetFile":"Predperfect.btf"},
+        {"name":"成績結算版面優化","slug":"scene-result","category":"scene","fileURL":"https://www.tlmoo.com/twloader/down/map/Result.btf","imageURL":"https://www.tlmoo.com/twloader/down/map/Result_.jpg","targetFile":"Result.btf"}
+    ],
+    "beatup": [
+        {"name":"黑框","slug":"beatup-black-frame","category":"beatup","fileURL":"https://www.tlmoo.com/twloader/down/BeatUP/twloaderblack.btf","imageURL":"https://www.tlmoo.com/twloader/down/BeatUP/blockup.jpeg","targetFile":"twloaderblack.btf"},
+        {"name":"螢光綠箭頭","slug":"beatup-green-arrow","category":"beatup","fileURL":"https://www.tlmoo.com/twloader/down/BeatUP/ztbublack.btf","imageURL":"https://www.tlmoo.com/twloader/down/BeatUP/der.jpeg","targetFile":"ztbublack.btf"},
+        {"name":"十字固定舞步","slug":"beatup-fixed-step","category":"beatup","fileURL":"https://www.tlmoo.com/twloader/down/BeatUP/Zman.btf","imageURL":"https://www.tlmoo.com/twloader/down/null.jpg","targetFile":"Zman.btf"}
+    ],
+    "black-tech": [
+        {"name":"螢光綠P線(球改線且閃爍)","slug":"bt-green-p-blink","category":"black-tech","fileURL":"https://www.tlmoo.com/twloader/down/Greenline/Predperfect.btf","imageURL":"https://www.tlmoo.com/twloader/down/Greenline/Greenline.gif","targetFile":"Predperfect.btf"},
+        {"name":"螢光綠P線有球(不閃爍)","slug":"bt-green-p-solid","category":"black-tech","fileURL":"https://www.tlmoo.com/twloader/down/Greenline/nf/Predperfect.btf","imageURL":"https://www.tlmoo.com/twloader/down/Greenline/Greenlinesteady.gif","targetFile":"Predperfect.btf"},
+        {"name":"紅色P線有球(閃爍)","slug":"bt-red-p-blink","category":"black-tech","fileURL":"https://www.tlmoo.com/twloader/down/Redline/Predperfect.btf","imageURL":"https://www.tlmoo.com/twloader/down/Redline/ballpresent.gif","targetFile":"Predperfect.btf"},
+        {"name":"紅色P線有球(不閃爍)","slug":"bt-red-p-solid","category":"black-tech","fileURL":"https://www.tlmoo.com/twloader/down/Redline/nf/Predperfect.btf","imageURL":"https://www.tlmoo.com/twloader/down/Redline/RedBall.gif","targetFile":"Predperfect.btf"},
+        {"name":"情侶模式去灰鍵","slug":"bt-lover-mode","category":"black-tech","fileURL":"https://www.tlmoo.com/twloader/down/Lover.btf","imageURL":"https://www.tlmoo.com/twloader/down/null.jpg","targetFile":"Lover.btf"},
+        {"name":"解除禁字","slug":"bt-slang","category":"black-tech","fileURL":"https://www.tlmoo.com/twloader/down/slang.btf","imageURL":"https://www.tlmoo.com/twloader/down/null.jpg","targetFile":"slang.btf"}
+    ]
+}

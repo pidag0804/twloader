@@ -1,0 +1,453 @@
+<?
+$_GET['pms'] = $page_pms;
+require_once("include/content_head.php");
+require_once("lock.php");
+?>
+
+<script>
+function showhide(from, to){
+	for ( var i = 1; i <= 3; i++ )
+		document.getElementById(to+i).style.display = "none";
+		
+	document.getElementById(to+from.value).style.display = "block";
+}
+</script>
+
+<!-- Begin gray Wrapper -->
+<div class="gray-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">購買流程</h2>
+    <div class="teaser-navigation">
+      <div class="clear"></div>
+    </div>
+    <select class="selectnavDisplay" id="PAYType" onchange="showhide(this, 'pay')">
+      <option value="0">選擇您的付款方式</option>
+      <option value="1">TWLoader付款教學影片</option>
+      <option value="2">超商代碼繳費  (全家)</option>
+      <option value="3">超商代碼繳費  (Life-ET)</option>
+      <option value="4"> 網路ATM繳費  (WEB-ATM)</option>
+    </select>
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End gray Wrapper -->
+
+<div id="pay4" style="display:none;">
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第一步</h2>
+    <blockquote>
+        <p>
+          填寫產品申購訂單 (選擇此付款機制用戶建議使用 IE 瀏覽器進行)
+        </p>
+    </blockquote>
+    <img src="images/steps/pay_web_atm/1.png" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第二步</h2>
+    <blockquote>
+        <p>
+          確認您填的資料及金額 確認無誤後請按確定購買
+        </p>
+    </blockquote>
+    <img src="images/steps/pay_web_atm/2.png" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第三步</h2>
+    <blockquote>
+        <p>將跳轉至選擇網路銀行介面 請選習慣或任意銀行ATM系統 並確定送出</p>
+    </blockquote>
+    <img src="images/steps/pay_web_atm/3.png" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第四步</h2>
+    <blockquote>
+        <p>啟動讀卡機並插入所擁有之銀行卡並完成轉帳作業(每家銀行介面不同故擇一示範)</p>
+    </blockquote>
+    <img src="images/steps/pay_web_atm/4.png" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第五步</h2>
+    <blockquote>
+        <p>完成繳款動作後幾分鐘內，系統收到並核對款項無誤即會自動開通</p>
+    </blockquote>
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+</div>
+
+<div id="pay3" style="display:none;">
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第一步</h2>
+    <blockquote>
+        <p>
+          填寫您的申購訂單
+        </p>
+    </blockquote>
+    <img src="images/steps/pay_left_et/1.png" Height="500" Width="500" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第二步</h2>
+    <blockquote>
+        <p>
+          確認您填的資料 確認無誤後請按確定購買
+        </p>
+    </blockquote>
+    <img src="images/steps/pay_left_et/2.png" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第三步</h2>
+    <blockquote>
+        <p>請將「繳費代碼」抄寫下</p>
+    </blockquote>
+    <img src="images/steps/pay_left_et/3.png" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第四步</h2>
+    <blockquote>
+        <p>前往萊爾富 Left_et 超商門市 選擇「代收繳款」。</p>
+    </blockquote>
+    <img src="images/steps/pay_left_et/4.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第五步</h2>
+    <blockquote>
+        <p>選擇「網路交易」。</p>
+    </blockquote>
+    <img src="images/steps/pay_left_et/5.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第六步</h2>
+    <blockquote>
+        <p>選擇綠界科技支付中心。</p>
+    </blockquote>
+    <img src="images/steps/pay_left_et/6.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第七步</h2>
+    <blockquote>
+        <p>選擇代碼繳費。</p>
+    </blockquote>
+    <img src="images/steps/pay_left_et/7.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第八步</h2>
+    <blockquote>
+        <p>輸入您的繳費代碼共14碼 如有缺少,請立即跟我們反映。</p>
+    </blockquote>
+    <img src="images/steps/pay_left_et/8.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第九步</h2>
+    <blockquote>
+        <p>確認代碼無誤後 請按「我要繳款」。</p>
+    </blockquote>
+    <img src="images/steps/pay_left_et/9.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第十步</h2>
+    <blockquote>
+        <p>會跳出綠界繳款同意畫面，請選擇「同意繳款」。</p>
+    </blockquote>
+    <img src="images/steps/pay_left_et/10.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">最後</h2>
+    <blockquote>
+        <p>會跳出交易憑證列印中，請稍候。再拿著單據到櫃檯繳費即可。</p>
+    </blockquote>
+    <img src="images/steps/pay_left_et/11.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+</div>
+
+<div id="pay2" style="display:none;">
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第一步</h2>
+    <blockquote>
+        <p>
+          填寫您的申購訂單
+        </p>
+    </blockquote>
+    <img src="images/steps/pay_family_mart/1.png" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第二步</h2>
+    <blockquote>
+        <p>
+          確認您填的資料 確認無誤後請按確定購買
+        </p>
+    </blockquote>
+    <img src="images/steps/pay_family_mart/2.png" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第三步</h2>
+    <blockquote>
+        <p>請將「繳費代碼」抄寫下</p>
+    </blockquote>
+    <img src="images/steps/pay_family_mart/3.png" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第四步</h2>
+    <blockquote>
+        <p>前往全家 Family 超商門市操作 選擇「繳費」。</p>
+    </blockquote>
+    <img src="images/steps/pay_family_mart/4.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第五步</h2>
+    <blockquote>
+        <p>選擇「代碼繳費」。</p>
+    </blockquote>
+    <img src="images/steps/pay_family_mart/5.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第六步</h2>
+    <blockquote>
+        <p> 出現繳費同意條款 選擇「同意 , 我接受」。</p>
+    </blockquote>
+    <img src="images/steps/pay_family_mart/6.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第七步</h2>
+    <blockquote>
+        <p>輸入您的繳費代碼共14碼 如有缺少,請立即跟我們反映。</p>
+    </blockquote>
+    <img src="images/steps/pay_family_mart/7.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第九步</h2>
+    <blockquote>
+        <p>再次確認繳款代碼是否輸入正確。選擇「正確，進行繳款」。</p>
+    </blockquote>
+    <img src="images/steps/pay_family_mart/9.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">第十步</h2>
+    <blockquote>
+        <p>出現網頁處理中，請稍候</p>
+    </blockquote>
+    <img src="images/steps/pay_family_mart/10.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">最後</h2>
+    <blockquote>
+        <p>最後確認交易明細無誤後 選擇「正確，列印繳費單」後持繳費單臨櫃繳款。</p>
+    </blockquote>
+    <img src="images/steps/pay_family_mart/11.jpg" />
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->
+</div>
+
+<div id="pay1" style="display:none;">
+<!-- Begin White Wrapper -->
+<div class="white-wrapper"> 
+  <!-- Begin Inner -->
+  <div class="inner">
+    <h2 class="line">TWLoader教學影片</h2>
+    <blockquote>
+        <p>
+          影片支持1080HD
+        </p>
+    </blockquote>
+    <iframe width="800" height="600" src="https://www.youtube.com/embed/C12AmENjq7s" frameborder="0" allowfullscreen></iframe>
+    <div class="clear"></div>
+  </div>
+  <!-- End Inner --> 
+</div>
+<!-- End White Wrapper -->

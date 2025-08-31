@@ -1,0 +1,17 @@
+.frame a .more {
+    background: #202020;
+}
+
+.caption.black_bg {
+    background: #202020;
+}
+
+.forms fieldset .text-input,
+.forms fieldset .text-area,
+.footer .forms fieldset .text-input,
+.footer .forms fieldset .text-area,
+.footer .searchform input,
+.comment-form input,
+.comment-form textarea {
+    padding-top: 11px;
+}
