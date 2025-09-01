@@ -105,10 +105,13 @@ case "add_vip":
 		
 	case "del_vip":
 		$gName = strtolower(mysql_real_escape_string($_GET['gid']));
-		if ( ( getValidClient($gName) <= 0 || getValidClient($gName) == 5 )&& getRegVip($gName, $User['num']) == 2 ) {
+		// *** 修改點：移除了 getValidClient 的檢查，只保留權限檢查 ***
+		if ( getRegVip($gName, $User['num']) == 2 ) {
 			$db->query("UPDATE tl_viplist SET `status` = 0, `datetime` = '".$NOW_DATETIME."' WHERE LOWER(`gameid`) = '".$gName."' && `uid` = '".$User['num']."'");
 			exit ($MSG_DELVIP[0]);
-		} else exit ($MSG_DELVIP[1]);
+		} else {
+			exit ($MSG_DELVIP[1]);
+		}
         break;
 }
 

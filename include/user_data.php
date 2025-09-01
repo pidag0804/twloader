@@ -1,17 +1,17 @@
 <?
 ini_set('date.timezone','Asia/Taipei');
-session_start();
-//include_once("dbInitCheck.php");
-$ld_ac = $_SESSION['user_ac'];
-$ld_pw = $_SESSION['user_pw'];
-$ld_id = intval($_SESSION['user_id']);
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
-//$ld_ac = "twloader";
-//$ld_pw = "ji3941p41p4";
+$ld_ac = isset($_SESSION['user_ac']) ? $_SESSION['user_ac'] : '';
+$ld_pw = isset($_SESSION['user_pw']) ? $_SESSION['user_pw'] : '';
+$ld_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
 
 $IS_USER_LOGIN = 0;
+$HaveUnread = 0; // *** 修改點：在這裡為 $HaveUnread 設定初始值 ***
 
-if ( $_SESSION['user_key'] == md5(base64_encode($ld_ac.$ld_id.$ld_pw."tw_loader")) && $ld_id > 0 ) {
+if (isset($_SESSION['user_key']) && $_SESSION['user_key'] == md5(base64_encode($ld_ac.$ld_id.$ld_pw."tw_loader")) && $ld_id > 0 ) {
   $query = $db->query("SELECT * FROM tlpw WHERE `num` = ".$ld_id);
   $count_query = $db->num_rows($query);
   if ( $count_query ) {
@@ -20,27 +20,34 @@ if ( $_SESSION['user_key'] == md5(base64_encode($ld_ac.$ld_id.$ld_pw."tw_loader"
 	  $query = $db->query("SELECT * FROM tl_message WHERE `touser` = '".$User['num']."' && `unread` = 1");
 	  $count_query = $db->num_rows($query);
 	  if ( $count_query > 0 )
-		  $HaveUnread = $count_query;
+		  $HaveUnread = $count_query; // 如果有未讀訊息，這裡會更新數值
 	  
 	  $query = $db->query("SELECT * FROM tl_viplist WHERE `uid` = ".$User['num']." && `status` = 1 ORDER BY `datetime`");
 	  $User_VipCount = $db->num_rows($query);
 	  
-	  for($i=0; $i < 3; $i++) $Client[$i]['type'] = 5; //重置帳戶類型 (5為空白)
+	  for($i=0; $i < 6; $i++) $Client[$i]['type'] = 5; // 修正為 6 個欄位
 	  
-	  for($i=0; $i < $User_VipCount; $i++) {
-		  $VipData[$i] = $db->fetch_array($query);
-		  $client_query = $db->query("SELECT * FROM kmx_usera WHERE UPPER(`name`) = '".strtoupper($VipData[$i]['gameid'])."'");
-		  $Client[$i] = $db->fetch_array($client_query);
-	  }
+	  $vip_list_result = $db->query("SELECT * FROM tl_viplist WHERE `uid` = ".$User['num']." && `status` = 1 ORDER BY `datetime`");
+      $i = 0;
+      while($VipData = $db->fetch_array($vip_list_result)) {
+          if ($i < 6) {
+              $client_query = $db->query("SELECT * FROM kmx_usera WHERE UPPER(`name`) = '".strtoupper($VipData['gameid'])."'");
+              if($db->num_rows($client_query) > 0) {
+                $Client[$i] = $db->fetch_array($client_query);
+              }
+              $i++;
+          }
+      }
+	  
 	  if ( $User['group'] == 6 && $User_VipCount == 0) $User['group'] = 0;
 	  if ( $User['group'] == 0 && $User_VipCount > 0) $User['group'] = 6;
 	  if ( $User['block'] > 0 ) $User['group'] = 2;
 	  $IS_USER_LOGIN = 1;
   }
 
-  $UserType = array('剩餘次數: ', 'icon-user', 'VIP',
-					'有效日: ', 'icon-user', 'VIP',
-					'有效日：榮譽無限期會員', 'icon-infinity', 'infinity',
+  $UserType = array('剩餘次數: ', 'icon-user', '次數型',
+					'到期日: ', 'icon-user', '包月型',
+					'有效日：榮譽無限期會員', 'icon-user', '無限',
 					'停權用戶', 'icon-cancel-1', 'BAN',
 					'已到期', 'icon-pause', 'DUE',
 					'', 'icon-user-add', 'VIP'
@@ -63,15 +70,17 @@ if ( $_SESSION['user_key'] == md5(base64_encode($ld_ac.$ld_id.$ld_pw."tw_loader"
 $NOW_DATE = date("Y-m-d");
 $NOW_DATETIME = date("Y-m-d H:i:s");
 
-if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-  $USER_IP = $_SERVER['REMOTE_ADDR'];
+$USER_IP = '';
+if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+    $USER_IP = $_SERVER['HTTP_CLIENT_IP'];
+} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $USER_IP = $_SERVER['HTTP_X_FORWARDED_FOR'];
 } else {
-  $USER_IP = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-  $USER_IP = $myip[0];
+    $USER_IP = $_SERVER['REMOTE_ADDR'];
 }
 
-$site_ini_path = "include/site_config.ini";
-$site_config = parse_ini_file($site_ini_path, true);
+$site_ini_path = __DIR__ . "/site_config.ini";
+$site_config = file_exists($site_ini_path) ? parse_ini_file($site_ini_path, true) : [];
 
 define("PMS_ALL", 1);
 define("PMS_GUEST", 2);

@@ -60,6 +60,38 @@ function formatRowToCheck($ParamList, $HashKey, $HashIV) {
   max-width: 100px;
 }
 
+/* 分頁樣式 */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+  padding-bottom: 20px; /* 增加底部空間 */
+}
+
+.pagination a, .pagination span {
+  display: inline-block;
+  padding: 8px 12px;
+  margin: 0 2px;
+  border: 1px solid #ddd;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.pagination a:hover {
+  background-color: #f5f5f5;
+}
+
+.pagination .current-page {
+  background-color: #e6c555;
+  color: #fff;
+  border-color: #e6c555;
+}
+
+.pagination .disabled {
+  color: #ccc;
+  border-color: #ddd;
+}
+
 </style>
 
     <script language="javascript">
@@ -73,9 +105,7 @@ function formatRowToCheck($ParamList, $HashKey, $HashIV) {
         });
     </script>
 
-    <!-- Begin White Wrapper -->
     <div class="white-wrapper">
-        <!-- Begin Inner -->
         <div class="inner">
             <h2 class="line">訂單記錄</h2>
             <div class="teaser-navigation">
@@ -97,13 +127,41 @@ function formatRowToCheck($ParamList, $HashKey, $HashIV) {
       $PayMString = array(0, "超商代碼繳費", "銀行手寫匯款", "郵局手寫匯款", "提款機轉帳", "網上 ATM", "綠界金流");
       $PayConvert = array(0, 4, 2, 3, 1, 5, 6);
 
-      $query = $db->query("SELECT * FROM kmx_problema WHERE `buyer` = ".$User['num']." ORDER BY `id` DESC");
+      // --- 分頁邏輯開始 ---
+      $per_page = 20; // 每頁顯示的筆數
+
+      // 取得總筆數
+      $total_query = $db->query("SELECT COUNT(*) FROM kmx_problema WHERE `buyer` = ".$User['num']);
+      $total_rows = $db->fetch_array($total_query)[0];
+      
+      // 計算總頁數
+      $total_pages = ceil($total_rows / $per_page);
+
+      // 取得目前頁碼
+      $current_page = isset($_GET['p']) ? (int)$_GET['p'] : 1;
+      if ($current_page < 1) {
+          $current_page = 1;
+      } elseif ($current_page > $total_pages && $total_pages > 0) {
+          $current_page = $total_pages;
+      }
+      
+      // 計算 SQL 的 LIMIT OFFSET
+      $offset = ($current_page - 1) * $per_page;
+
+      /*
+      // *** 除錯用 ***：如果您想確認計算結果，可以暫時移除這段註解，它會在頁面原始碼中顯示總筆數和總頁數。
+      echo "";
+      */
+
+      // 修改查詢語法，加入 LIMIT
+      $query = $db->query("SELECT * FROM kmx_problema WHERE `buyer` = ".$User['num']." ORDER BY `id` DESC LIMIT ".$offset.", ".$per_page);
       $count_query = $db->num_rows($query);
+      // --- 分頁邏輯結束 ---
 
       if ( $count_query == 0 ) {
       ?>
       <tr style="height: 100px;">
-        <th colspan="6">沒有任何訂單記錄，請先<a href="http://www.tlmoo.com/twloader/?page=apply">申請購買</a></th>
+        <th colspan="6">沒有任何訂單記錄，請先<a href="?page=tlapplyec">申請購買</a></th>
       </tr>
       <?php
       }
@@ -141,7 +199,7 @@ function formatRowToCheck($ParamList, $HashKey, $HashIV) {
                       if ( $paymethod == 1 ) {
                         echo "<hr />超商代碼繳費代碼: <span class='pno'>".$data["specialnumber"]."</span>";
                         if ( $data["done"] == 0 ) {
-                          echo "<br />在三天內持此繳費代碼到全省7-11/全家超商/萊爾富超商繳費 [<a href='http://www.tlmoo.com/twloader/?page=pay_steps'>詳細步驟</a>]";
+                          echo "<br />在三天內持此繳費代碼到全省7-11/全家超商/萊爾富超商繳費 [<a href='?page=pay_steps'>詳細步驟</a>]";
                         }
                       } else if ( $paymethod == 5 && $data["done"] == 0 ) {
                           $postData = array(
@@ -166,35 +224,7 @@ function formatRowToCheck($ParamList, $HashKey, $HashIV) {
                           ?>
                           <input class="pay-button" type="submit" value="立即付款" />
                           </form>
-                      <?php } else if ( $paymethod == 6 && $data["done"] == 0 ) {
-                        /*
-                        include_once('include/AllPay.Payment.Integration.php');
-                        $obj = new AllInOne();
-
-                        $obj->ServiceURL  = "https://payment.allpay.com.tw/Cashier/AioCheckOut ";
-                        $obj->HashKey     = 'cNlD0JOWqL50FwFb';
-                        $obj->HashIV      = '009AW7psuTKeRWOu';
-                        $obj->MerchantID  = '1039181';
-
-                        $obj->Send['ReturnURL']         = "http://www.tlmoo.com/twloader/liftet/liftet.php?wa=3";    //付款完成通知回傳的網址
-                        $obj->Send['ClientBackURL']     = "http://www.tlmoo.com/twloader/?page=orderform";
-                        $obj->Send['MerchantTradeNo']   = $data['id'];                                //訂單編號
-                        $obj->Send['MerchantTradeDate'] = date('Y/m/d H:i:s');                        //交易時間
-                        $obj->Send['TotalAmount']       = $data['money'];                             //交易金額
-                        $obj->Send['TradeDesc']         = "TwLoader Service";                         //交易描述
-                        $obj->Send['ChoosePayment']     = PaymentMethod::ALL;                         //付款方式:全功能
-
-                        //訂單的商品資料
-                        array_push($obj->Send['Items'],
-                            array('Name' => "TwLoader 服務",
-                                  'Price' => (int) $payMoney,
-                                  'Currency' => "台幣",
-                                  'Quantity' => (int) "1")
-                        );
-
-                        echo $obj->CheckOutString("立即付款");
-                        */
-                      } ?>
+                      <?php } ?>
                         </td>
                         <td>
                             <? echo $data['money']; ?>
@@ -217,7 +247,30 @@ function formatRowToCheck($ParamList, $HashKey, $HashIV) {
                   </tbody>
             </table>
             <div class="clear"></div>
+
+            <? if ($total_pages > 1): ?>
+            <div class="pagination">
+                <? if ($current_page > 1): ?>
+                    <a href="?page=orderform&p=<?= $current_page - 1 ?>">上一頁</a>
+                <? else: ?>
+                    <span class="disabled">上一頁</span>
+                <? endif; ?>
+
+                <? for ($p = 1; $p <= $total_pages; $p++): ?>
+                    <? if ($p == $current_page): ?>
+                        <span class="current-page"><?= $p ?></span>
+                    <? else: ?>
+                        <a href="?page=orderform&p=<?= $p ?>"><?= $p ?></a>
+                    <? endif; ?>
+                <? endfor; ?>
+
+                <? if ($current_page < $total_pages): ?>
+                    <a href="?page=orderform&p=<?= $current_page + 1 ?>">下一頁</a>
+                <? else: ?>
+                    <span class="disabled">下一頁</span>
+                <? endif; ?>
+            </div>
+            <? endif; ?>
+            </div>
         </div>
-        <!-- End Inner -->
-    </div>
-    <!-- End White Wrapper -->
+    ```

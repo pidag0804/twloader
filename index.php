@@ -201,8 +201,8 @@ include_once("a_service.php");
    "info", PMS_ALL,  1,
    "price", PMS_ALL,  "c_price.html",
    "pay_steps", PMS_ALL,  "c_pay_steps.html",
-   "tlapplyec", PMS_MEMBER, 1,
-   "tlapplyec2", PMS_MEMBER, 1,
+   "tlapplyec", PMS_MEMBER, "tlapplyec.php",
+   "tlapplyec2", PMS_MEMBER, "tlapplyec2.php",
    "new_vip", PMS_MEMBER, "new_vip.php",
 
 
