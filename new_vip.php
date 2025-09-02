@@ -141,12 +141,10 @@ include_once("a_service.php");
                     $status_class = 'low';
                 } elseif ($clientValid == 2) { // 日數用戶
                     $Quota = "到期日: " . date('Y-m-d', strtotime($Client[$i]['timeend']));
-                    // *** 新增的程式碼開始 ***
                     // 如果包月型用戶同時有剩餘次數，則顯示出來
                     if ($Client[$i]['atimes'] > 0) {
                         $Quota .= "<br><small style='color:#555;'>備用次數: " . $Client[$i]['atimes'] . " (將於包月結束後啟用)</small>";
                     }
-                    // *** 新增的程式碼結束 ***
                 } elseif ($clientValid == 3) { // 無限用戶
                      $Quota = "榮譽無限期會員";
                 } elseif ($clientValid == 5) { // 到期寬限期
@@ -181,6 +179,13 @@ include_once("a_service.php");
                       echo "<a href='https://www.tlmoo.com/test_twloader/index.php?page=tlapplyec' class='button small green'>續訂</a>";
                   }
               }
+
+              // *** 新增的程式碼開始 ***
+              // 檢查是否為次數型用戶 (type == 0)，且剩餘次數小於 100
+              if ($Client[$i]['type'] == 0 && $Client[$i]['atimes'] < 100) {
+                  echo "<a href='https://www.tlmoo.com/test_twloader/index.php?page=tlapplyec' class='button small green'>續訂</a>";
+              }
+              // *** 新增的程式碼結束 ***
 
               // 直接顯示解除按鈕，並加入確認提示
               echo "<a href='#' class='button small red' onClick=\"if(confirm('確定要解除這個帳號嗎？')) { loadContent('?act=del_vip&gid=" . $Client[$i]['name'] . "', 'status_return_" . $i . "'); } return false;\">解除綁定</a>";

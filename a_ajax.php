@@ -1,5 +1,14 @@
 <?php
 session_start();
+
+// 引入 PHPMailer 核心檔案 (如果 lostpw 功能已加入)
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'include/PHPMailer/src/Exception.php';
+require 'include/PHPMailer/src/PHPMailer.php';
+require 'include/PHPMailer/src/SMTP.php';
+
 include_once("include/class_mysql.php");
 include_once("include/user_data.php"); 
 include_once("include/get_user_status.php");
@@ -74,44 +83,97 @@ switch ($_GET['act']) {
 		exit ("修改失敗");
         break;
 		
-case "add_vip":
-    $gid = mysql_real_escape_string($_GET['gid']);
-    $gName = strtolower($gid);
-    $clientValid = getValidClient($gName);
+    case "add_vip":
+        $gid = mysql_real_escape_string($_GET['gid']);
+        $gName = strtolower($gid);
+        $clientValid = getValidClient($gName);
 
-    // 檢查 VIP 帳號數量限制
-    if ($User_VipCount >= 6) exit($MSG_ADDVIP[4]); // 多於 6 個帳戶
+        if ($User_VipCount >= 6) exit($MSG_ADDVIP[4]);
+        if ($clientValid == 4) exit($MSG_ADDVIP[5]);
+        if ($clientValid == 5) exit($MSG_ADDVIP[3]);
 
-    // 檢查其他條件
-    if ($clientValid == 4) exit($MSG_ADDVIP[5]); // 不足 50 次
-    if ($clientValid == 5) exit($MSG_ADDVIP[3]); // 到期後兩天
-
-    if ($clientValid >= 1) {
-        $isClientVIP = getRegVip($gName, $User['num']);
-        if ($isClientVIP == 0) {
-            $query = $db->query("SELECT * FROM tl_viplist WHERE LOWER(`gameid`) = '".$gName."' && `uid` = '".$User['num']."'");
-            $count_query = $db->num_rows($query);
-            if ($count_query) {
-                $db->query("UPDATE tl_viplist SET `status` = 1, `datetime` = '".$NOW_DATETIME."' WHERE LOWER(`gameid`) = '".$gName."' && `uid` = '".$User['num']."'");
-            } else {
-                $db->query("INSERT INTO tl_viplist (`uid`, `gameid`, `status`, `datetime`) VALUES ('".$User['num']."', '".$gid."', 1 ,'".$NOW_DATETIME."')");
+        if ($clientValid >= 1) {
+            $isClientVIP = getRegVip($gName, $User['num']);
+            if ($isClientVIP == 0) {
+                $query = $db->query("SELECT * FROM tl_viplist WHERE LOWER(`gameid`) = '".$gName."' && `uid` = '".$User['num']."'");
+                if ($db->num_rows($query)) {
+                    $db->query("UPDATE tl_viplist SET `status` = 1, `datetime` = '".$NOW_DATETIME."' WHERE LOWER(`gameid`) = '".$gName."' && `uid` = '".$User['num']."'");
+                } else {
+                    $db->query("INSERT INTO tl_viplist (`uid`, `gameid`, `status`, `datetime`) VALUES ('".$User['num']."', '".$gid."', 1 ,'".$NOW_DATETIME."')");
+                }
             }
+            exit($MSG_ADDVIP[$isClientVIP]);
+        } else {
+            exit($MSG_ADDVIP[3]);
         }
-        exit($MSG_ADDVIP[$isClientVIP]);
-    } else {
-        exit($MSG_ADDVIP[3]);
-    }
-    break;
+        break;
 		
 	case "del_vip":
 		$gName = strtolower(mysql_real_escape_string($_GET['gid']));
-		// *** 修改點：移除了 getValidClient 的檢查，只保留權限檢查 ***
 		if ( getRegVip($gName, $User['num']) == 2 ) {
-			$db->query("UPDATE tl_viplist SET `status` = 0, `datetime` = '".$NOW_DATETIME."' WHERE LOWER(`gameid`) = '".$gName."' && `uid` = '".$User['num']."'");
-			exit ($MSG_DELVIP[0]);
+			// *** 修改點：將 UPDATE 改為 DELETE ***
+			// 舊的寫法: $db->query("UPDATE tl_viplist SET `status` = 0, ... ");
+			$db->query("DELETE FROM tl_viplist WHERE LOWER(`gameid`) = '".$gName."' && `uid` = '".$User['num']."'");
+			
+			// 為了讓前端能即時反應，回傳一個會重新整理頁面的訊息
+			exit("解除成功！<script>setTimeout('window.location.reload()', 500);</script>");
 		} else {
-			exit ($MSG_DELVIP[1]);
+			exit($MSG_DELVIP[1]);
 		}
+        break;
+        
+    case "lostpw":
+        $gEm = mysql_real_escape_string(urldecode($_GET['em']));
+        
+        if (filter_var($gEm, FILTER_VALIDATE_EMAIL)) {
+            $query = $db->query("SELECT `usname`, `uspw` FROM tlpw WHERE `usem` = '".$gEm."'");
+            
+            if ($db->num_rows($query) > 0) {
+                $lostUser = $db->fetch_array($query);
+                $usname = $lostUser['usname'];
+                $uspw = $lostUser['uspw'];
+                
+                $mail = new PHPMailer(true);
+
+                try {
+                    $mail->isSMTP();
+                    $mail->Host       = 'smtp.gmail.com';
+                    $mail->SMTPAuth   = true;
+                    
+                    $mail->Username   = 'your_gmail_account@gmail.com'; // 請填寫您完整的 Gmail 帳號
+                    $mail->Password   = 'xxxxxxxxxxxxxxxx';             // 請填寫您的 16 位應用程式密碼
+                    
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+                    $mail->Port       = 465;
+                    $mail->CharSet    = 'UTF-8';
+
+                    $mail->setFrom('your_gmail_account@gmail.com', 'TwLoader 服務中心'); // 這裡也請填寫您的 Gmail 帳號
+                    $mail->addAddress($gEm);
+
+                    $mail->isHTML(false);
+                    $mail->Subject = 'TwLoader 帳號密碼查詢';
+                    
+                    $message = "您好：\r\n\r\n";
+                    $message .= "您在 TwLoader 的帳號資料如下：\r\n\r\n";
+                    $message .= "帳號： " . $usname . "\r\n";
+                    $message .= "密碼： " . $uspw . "\r\n\r\n";
+                    $message .= "請妥善保管您的資料，並建議登入後立即變更密碼。\r\n\r\n";
+                    $message .= "TwLoader 官方網站";
+
+                    $mail->Body = $message;
+
+                    $mail->send();
+                    exit("帳號資料已成功寄送到您的信箱，請檢查您的收件匣（也可能在垃圾郵件中）。");
+                } catch (Exception $e) {
+                    exit("郵件發送失敗，請聯絡管理員。");
+                }
+                
+            } else {
+                exit("找不到與此信箱關聯的帳戶，請確認您輸入的信箱是否正確。");
+            }
+        } else {
+            exit("您輸入的電子信箱格式不正確。");
+        }
         break;
 }
 
