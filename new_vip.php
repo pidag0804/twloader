@@ -112,7 +112,7 @@ include_once("a_service.php");
 <div class="gray-wrapper">
   <br>
   <div class="full-width">
-    <h3 class="line" align="center">管理綁定帳號</h3>
+    <h3 class="line" align="center">查詢效期 & 管理帳號</h3>
 
     <div class="vip-card-container">
       <?php
@@ -176,14 +176,14 @@ include_once("a_service.php");
                   $now = time();
                   $diff_days = ($timeend - $now) / (60 * 60 * 24);
                   if ($diff_days < 10 && $diff_days > 0) {
-                      echo "<a href='https://www.tlmoo.com/test_twloader/index.php?page=tlapplyec' class='button small green'>續訂</a>";
+                      echo "<a href='https://www.tlmoo.com/twloader/index.php?page=tlapplyec' class='button small green'>續訂</a>";
                   }
               }
 
               // *** 新增的程式碼開始 ***
               // 檢查是否為次數型用戶 (type == 0)，且剩餘次數小於 100
               if ($Client[$i]['type'] == 0 && $Client[$i]['atimes'] < 100) {
-                  echo "<a href='https://www.tlmoo.com/test_twloader/index.php?page=tlapplyec' class='button small green'>續訂</a>";
+                  echo "<a href='https://www.tlmoo.com/twloader/index.php?page=tlapplyec' class='button small green'>續訂</a>";
               }
               // *** 新增的程式碼結束 ***
 

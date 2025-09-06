@@ -1,7 +1,7 @@
 <?
 $_GET['pms'] = $page_pms;
 require_once("include/content_head.php");
-require_once("lock.php");
+require_once("lock2.php");
 
 $DlTypeList = array("特殊檔案 下載區");
 

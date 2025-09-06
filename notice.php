@@ -1,4 +1,4 @@
-<?
+<?php
 include_once("include/class_mysql.php");
 @mysql_query("SET character_set_results = utf8");
 
@@ -13,31 +13,20 @@ include_once("include/class_mysql.php");
 <link rel="stylesheet" type="text/css" href="style/css/media-queries.css" media="all" />
 <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700italic,700,500italic,500,400italic,300italic,300' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="style/type/fontello.css">
-<!--[if IE 8]>
-<link rel="stylesheet" type="text/css" href="style/css/ie8.css" media="all" />
-<![endif]-->
-<!--[if IE 9]>
-<link rel="stylesheet" type="text/css" href="style/css/ie9.css" media="all" />
-<![endif]-->
-<!— 圖片放特效 —>
 <script type="text/javascript" src="style/js/highslide/highslide.packed.js"></script>
 <script type="text/javascript" src="style/js/highslide/highslide-with-html.packed.js"></script>
-<link rel="stylesheet" type="text/css" href="style/js/highslide/highslide.css" /> 
-<script type="text/javascript"> hs.graphicsDir = 'style/js/highslide/graphics/'; hs.showCredits = false; hs.outlineType = 'rounded-white'; hs.outlineWhileAnimating = True; </script>
-<!— 圖片放特效 結束 —>
+<link rel="stylesheet" type="text/css" href="style/js/highslide/highslide.css" />
+<script type="text/javascript"> hs.graphicsDir = 'style/js/highslide/graphics/'; hs.showCredits = false; hs.outlineType = 'rounded-white'; hs.outlineWhileAnimating = true; </script>
 </head>
 
 <body class="box-layout" style="background: transparent url(style/images/bg/bg2.jpg) repeat;">
 
 
-<!-- Begin Box Wrapper -->
 <div class="box-wrapper"> 
 
-   <!-- Begin White Wrapper -->
-<div class="white-wrapper"> 
-  <!-- Begin Inner -->
+  <div class="white-wrapper"> 
   <div class="inner">
-		<?
+		<?php
           $threadID = intval($_GET['tid']);
 		  
 		  $query = $db->query("SELECT * FROM tlsay WHERE `num` = ".$threadID);
@@ -46,29 +35,24 @@ include_once("include/class_mysql.php");
 		  $NoticeData = $db->fetch_array($query);
 			  
         ?>
-        <h2 class="line"><? echo $NoticeData['topic'] ?></h2>
+        <h2 class="line"><?php echo htmlspecialchars($NoticeData['topic']); ?></h2>
 
-        <h6 class="short"><i class="awe"><? echo $NoticeData['date']; ?></i></h6>
-        <pre style="background:none; border:none; font-size:14px;"><? echo $NoticeData['text'] ?></pre>
-    <div class="clear"></div>
+        <h6 class="short"><i class="awe"><?php echo $NoticeData['date']; ?></i></h6>
+        
+        <div style="font-size:14px; line-height: 1.8; white-space: pre-wrap; word-wrap: break-word;">
+            <?php echo htmlspecialchars_decode($NoticeData['text']); ?>
+        </div>
+        <div class="clear"></div>
   </div>
-  <!-- End Inner --> 
-</div>
-<!-- End White Wrapper -->
-
-<!-- <div class="divider white-wrapper"></div> -->
-<!-- Begin Site Generator -->
-  <div class="site-generator-wrapper">
+  </div>
+<div class="site-generator-wrapper">
 <div class="site-generator">
     <div class="copyright">
-      <p>2010 - 2016 © TwLoader Notice.</p>
+      <p>2010 - 2025 © TwLoader Notice.</p>
     </div>
   </div>
 </div>
-<!-- End Site Generator --> 
-
 </div>
-<!-- End Box Wrapper --> 
 <script type="text/javascript" src="style/js/scripts.js"></script>
 
 </body>

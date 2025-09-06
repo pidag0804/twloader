@@ -2,7 +2,7 @@
 
 $_GET['pms'] = $page_pms;
 require_once("include/content_head.php");
-require_once("lock.php");
+require_once("lock2.php");
 
 	$ini_path = "images/info/config.ini";
 	$config = parse_ini_file($ini_path, true);

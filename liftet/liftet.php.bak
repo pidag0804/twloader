@@ -1,0 +1,136 @@
+<?php
+include_once('class_mysql.php');
+
+$db->query("insert into tlliftet (`mer_id`,`payment_type`,`tsr`,`od_sob`,`payno`,`amt`,`succ`,`payfrom`,`proc_date`,`proc_time`,`tac`) values ('" . $_POST['MerchantID'] . "','" . $_POST['PaymentType'] . "','','" . $_POST['TradeNo'] . "','" . $_POST['MerchantTradeNo'] . "','" . $_POST['TradeAmt'] . "','" . $_POST['RtnCode'] . "','','" . $_POST['PaymentDate'] . "','','" . $_POST['SimulatePaid'] . "')");
+$db->free_result($query);
+
+/*
+$j      = $dbb->fetch_array($dbb->query("SELECT * from kmx_proload WHERE `id` = '1' "));
+$d      = $dbb->fetch_array($dbb->query("SELECT * from kmx_problema WHERE `specialnumber` = '" . $_POST['payno'] . "' "));
+
+$error  = 0;
+if ($_POST['payno'] != $d['specialnumber'])
+    $error = 1;
+
+if ($_POST['mer_id'] != "3714")
+    $error = 1;
+
+if ($_POST['payment_type'] != "cvs")
+    $error = 1;
+if ($_POST['succ'] != "1")
+    $error = 1;
+
+*/
+
+$j = $dbb->fetch_array($dbb->query("SELECT * from kmx_proload WHERE `id` = '1' "));
+$d = $dbb->fetch_array($dbb->query("SELECT * from kmx_problema WHERE `id` = '" . $_POST['MerchantTradeNo'] . "' "));
+
+$gtimes = array(
+    $j['gtimesa'],
+    $j['gtimesb']
+);
+
+if ($_POST['TradeAmt'] != $d['money'])
+    $error = 1;
+
+if ($_POST['RtnCode'] != '1')
+    $error = 1;
+
+if (($error == 0) && ($d['done'] != 2)) {
+
+	//============================================================================================================
+    $dbb->query("UPDATE kmx_problema SET `done` = '2' WHERE `id`='" . $d['id'] . "'");
+    $dbb->query("UPDATE kmx_problema SET `why` = 'system' WHERE `id`='" . $d['id'] . "'");
+    $dbb->query("UPDATE kmx_problema SET `editby` = 'system' WHERE `id`='" . $d['id'] . "'");
+    //============================================================================================================
+
+    $nowday       = date("Y-m-d");
+    $actionnumber = 7;
+    if ($d['buyform'] == 3) {
+        $d['money']   = $d['money'] / $m8591;
+        $actionnumber = 4;
+    } elseif ($d['buyform'] == 4) {
+        $d['money']   = $d['money'] - 30;
+        $actionnumber = 7;
+    }
+    for ($index = 1; $index <= $d['accnumber']; $index++) {
+        if ($d['type' . $index] == 1) {
+            $buytype[$index]  = 0;
+            $buytimes[$index] = $gtimes[$d['times' . $index]];
+            $buytime[$index]  = $gtimes[$d['times' . $index]];
+            $newday[$index]   = strtotime($nowday);
+        } else {
+            $buytype[$index]  = 1;
+            $saveday[$index]  = ($d['day' . $index] + 1) * 30;
+            $buytimes[$index] = 0;
+            $newday[$index]   = (strtotime($nowday) + (($saveday[$index] + 1) * 86400));
+            if (($j['newfromtype'] == 0) && ($j['newfromtimes'] <> 0))
+                $buytimes[$index] = $j['newfromtimes'];
+        }
+        $query = $dbb->query("SELECT COUNT(*) from kmx_usera where `name` = '" . $d['acc' . $index] . "'");
+        $num   = $dbb->result($query, 0);
+        $dbb->free_result($query);
+        if ($num == 0) {
+            $dbb->query("insert into kmx_usera (`name`,`nickname`,`password`,`type`,`fristlogin`,`lastlogin`,`playtimes`,`atimes`,`timeend`,`editby`) values('" . $d['acc' . $index] . "','none','none','" . $buytype[$index] . "','" . date("Y-m-d H:i:s") . "','" . date("Y-m-d H:i:s") . "','0','" . $buytimes[$index] . "','" . date('Y-m-d', $newday[$index]) . "','system')");
+            $dbb->free_result($query);
+        } elseif ($num == 1) {
+            $query = $dbb->query("SELECT * from kmx_usera where `name` = '" . $d['acc' . $index] . "'");
+            $n     = $dbb->fetch_array($query);
+            $dbb->free_result($query);
+            if (time() > strtotime($n["timeend"]))
+                $n["timeend"] = $nowday;
+            if ($d['type1'] == 1) {
+                $newday[$index]   = strtotime($n["timeend"]);
+                $buytimes[$index] = $buytimes[$index] + $n["atimes"];
+            } else {
+                $newday[$index]   = strtotime($n["timeend"]) + ($saveday[$index] + 1) * 86400;
+                $buytimes[$index] = $n["atimes"];
+            }
+            $dbb->query("UPDATE kmx_usera SET `type` = '" . $buytype[$index] . "' WHERE `name`='" . $d['acc' . $index] . "'");
+            $dbb->query("UPDATE kmx_usera SET `atimes` = '" . $buytimes[$index] . "' WHERE `name`='" . $d['acc' . $index] . "'");
+            $dbb->query("UPDATE kmx_usera SET `timeend` = '" . date('Y-m-d', $newday[$index]) . "' WHERE `name`='" . $d['acc' . $index] . "'");
+            $dbb->query("UPDATE kmx_usera SET `editby` = 'system' WHERE `name`='" . $d['acc' . $index] . "'");
+            $dbb->free_result($query);
+        }
+        $dbb->query("insert into kmx_finala (`userid`,`money`,`type`,`firstlogin`,`timeend`,`addday`,`atimes`,`other`,`editby`,`action`,`code`) values('" . $d['acc' . $index] . "','" . $d['money'] . "','" . $buytype[$index] . "','" . date("Y-m-d H:m:s") . "','" . date('Y-m-d', $newday[$index]) . "','" . $saveday[$index] . "','" . $buytime[$index] . "','','system','" . $actionnumber . "','" . $d['id'] . "')");
+        $dbb->free_result($query);
+    }
+
+    //============================================================================================================
+
+    if ($d['who'] != "") {
+        $query = $dbb->query("select * from kmx_usera where `name` = '" . $d['who'] . "'");
+        if ($dbb->num_rows($query) <= 0) {
+            $newplaynumber = $j['newfromtimes'];
+            if ($j['newfromtype'] <= 4)
+                $j['newfromtimes'] = 0;
+            $dbb->query("insert into kmx_usera (`name`,`nickname`,`password`,`type`,`fristlogin`,`lastlogin`,`playtimes`,`atimes`) values('" . $d['who'] . "','none','none','" . $j['newfromtype'] . "','" . date("Y-m-d H:i:s") . "','" . date("Y-m-d H:i:s") . "','0','" . $j['newfromtimes'] . "')");
+            $dbb->query("UPDATE kmx_usera SET `timeend` = '" . date("Y-m-d") . "' WHERE `name`='" . $d['who'] . "'");
+            if ($j['newfromtype'] == 1) {
+                $newday = strtotime($nowday) + ($j['newfromtimes'] + $newplaynumber) * 86400;
+                $dbb->query("UPDATE kmx_usera SET `timeend` = '" . date('Y-m-d', $newday) . "' WHERE `name`='" . $d['who'] . "'");
+            }
+            $dbb->free_result($query);
+        }
+        $query = $dbb->query("SELECT * from kmx_usera where `name` = '" . $d['who'] . "'");
+        $o     = $dbb->fetch_array($query);
+        $dbb->free_result($query);
+        //$nowday = date("Y-m-d");
+        if (strtotime($o["timeend"]) < strtotime(date("Y-m-d"))) {
+            $newdays = strtotime(date("Y-m-d")) + 3 * 86400;
+        } else {
+            $newdays = strtotime($o['timeend']) + 3 * 86400;
+        }
+        //if (time() > strtotime($o["timeend"])) $o["timeend"] = $nowday ;
+        //$newdays = strtotime($o['timeend'])+3*86400;
+        $dbb->query("UPDATE kmx_usera SET `timeend` = '" . date('Y-m-d', $newdays) . "' WHERE `name`='" . $d['who'] . "'");
+        $dbb->query("UPDATE kmx_usera SET `type` = '1' WHERE `name`='" . $d['who'] . "'");
+        $dbb->free_result($query);
+        $dbb->query("insert into kmx_finala (`userid`,`money`,`type`,`firstlogin`,`timeend`,`addday`,`atimes`,`other`,`editby`,`action`) values('" . $d['who'] . "','0','1','" . date("Y-m-d H:i:s") . "','" . date('Y-m-d', $newdays) . "','3','0','','system','8')");
+        $dbb->free_result($query);
+    }
+	echo "1|OK";
+} else {
+	echo "0|ERROR";
+}
+?>
